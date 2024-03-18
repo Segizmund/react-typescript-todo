@@ -4,7 +4,7 @@ import {Todolist} from './Todolist';
 import './App.css';
 type TaskType = {
     id?: string
-    title?: string
+    title: string
     isDone?: boolean
 }
 export type FilterValuesType = 'all' | 'active' | 'completed'
@@ -17,7 +17,6 @@ function App() {
         { id: v1(), title: 'Typescript', isDone: false },
         { id: v1(), title: 'RTK query', isDone: false },
     ])
-    let tasks2: any[] = [];
     const removeTask = (taskId: string) => {
         const filteredTasks = tasks.filter(task => {
             return task.id !== taskId
@@ -46,6 +45,10 @@ function App() {
         const newTasks = [newTask, ...tasks]
         setTasks(newTasks)
     }
+    const changeTaskStatus = (taskId: string, taskStatus: boolean) => {
+        const newState = tasks.map(t => (t.id == taskId ? { ...t, isDone: taskStatus } : t))
+        setTasks(newState)
+    }
     return (
         <div className={"App"}>
         <Fragment>
@@ -58,15 +61,8 @@ function App() {
                 removeTask={removeTask}
                 changeFilter={changeFilter}
                 addTask={addTask}
-            />
-            <Todolist
-                title={"Привет"}
-                subTitle={"Уроки"}
-                description={"Описание уроков"}
-                tasks={tasks2}
-                removeTask={removeTask}
-                changeFilter={changeFilter}
-                addTask={addTask}
+                changeTaskStatus ={changeTaskStatus}
+                filter={filter}
             />
         </Fragment>
         </div>
