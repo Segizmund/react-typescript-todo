@@ -1,7 +1,12 @@
 import React from 'react'
 import {ChangeEvent,KeyboardEvent,useState} from 'react'
-import {Button} from './Button'
+import {Btn} from './Button'
 import {FilterValuesType} from "./App";
+import Toast from 'react-bootstrap/Toast';
+import ToastContainer from 'react-bootstrap/ToastContainer';
+import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
 type PropsType = {
     title: string
     subTitle: string
@@ -62,7 +67,7 @@ export const Todolist = ({ title, subTitle, description, tasks, date, removeTask
                         />
                     </div>
                     <div className="col">
-                        <Button
+                        <Btn
                             id={"liveToastBtn"}
                             className={"btn btn-primary"}
                             title={'+'}
@@ -84,17 +89,18 @@ export const Todolist = ({ title, subTitle, description, tasks, date, removeTask
                         return (
                             <li key={task.id} className={task.isDone ? 'is-done' : ''}>
                                 <div className={"row mb-3"}>
-                                <div className={"col-9"}>
-                                <input type="checkbox" checked={task.isDone} onChange={changeTaskStatusHandler}/>
-                                <span>{task.title}</span>
+                                    <div className={"col-9"}>
+                                        <input type="checkbox" checked={task.isDone}
+                                               onChange={changeTaskStatusHandler}/>
+                                        <span>{task.title}</span>
+                                    </div>
+                                    <div className={"col"}>
+                                        <Btn
+                                            className={"btn btn-danger"}
+                                            title={"X"}
+                                            onClick={() => removeTask(task.id)}/>
+                                    </div>
                                 </div>
-                                <div className={"col"}>
-                                <Button
-                                    className={"btn btn-danger"}
-                                    title={"X"}
-                                    onClick={()=>removeTask(task.id)}/>
-                                </div>
-                            </div>
                             </li>
                         )
                     })}
@@ -102,31 +108,20 @@ export const Todolist = ({ title, subTitle, description, tasks, date, removeTask
 
             )}
             <div className={"d-flex justify-content-evenly col-12"}>
-                <Button
+                <Btn
                     className={filter === 'all' ? 'btn btn-success' : 'btn btn-primary'}
                     title={'All'}
-                    onClick={()=> changeFilterTasksHandler('all')}/>
-                <Button
+                    onClick={() => changeFilterTasksHandler('all')}/>
+                <Btn
                     className={filter === 'active' ? 'btn btn-success' : 'btn btn-primary'}
                     title={'Active'}
-                    onClick={()=> changeFilterTasksHandler('active')}/>
-                <Button
+                    onClick={() => changeFilterTasksHandler('active')}/>
+                <Btn
                     className={filter === 'completed' ? 'btn btn-success' : 'btn btn-primary'}
                     title={'Completed'}
-                    onClick={()=> changeFilterTasksHandler('completed')}/>
+                    onClick={() => changeFilterTasksHandler('completed')}/>
             </div>
             <div>{date}</div>
-            {success && <div className="toast" id="myToast">
-                <div className="toast-header">
-                    <strong className="me-auto"><i className="bi-gift-fill"></i> We miss you!</strong>
-                    <small>11 mins ago</small>
-                    <button type="button" className="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-                </div>
-                <div className="toast-body">
-                    It's been a long time since you visited us. We've something special for you. <a href="#">Click
-                    here!</a>
-                </div>
-            </div>}
         </div>
     )
 }

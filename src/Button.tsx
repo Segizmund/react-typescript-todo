@@ -5,6 +5,6 @@ type ButtonPropsType = {
     id?: string
 }
 
-export const Button = ({ title, onClick, className,id }: ButtonPropsType) => {
+export const Btn = ({ title, onClick, className,id }: ButtonPropsType) => {
     return <button type="button" className={className} id={id} onClick={onClick}>{title}</button>
 }

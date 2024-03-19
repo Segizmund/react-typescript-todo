@@ -1,7 +1,13 @@
 import React, {Fragment, useState} from 'react';
 import { v1 } from 'uuid'
 import {Todolist} from './Todolist';
+import {Successful} from "./Successful";
 import './App.css';
+import Toast from 'react-bootstrap/Toast';
+import ToastContainer from 'react-bootstrap/ToastContainer';
+import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
 type TaskType = {
     id?: string
     title: string
@@ -49,22 +55,29 @@ function App() {
         const newState = tasks.map(t => (t.id == taskId ? { ...t, isDone: taskStatus } : t))
         setTasks(newState)
     }
+    const [showA, setShowA] = useState(false);
+    const closeShow = (showA:any) => {
+        showA ? alert("asd") : alert("123")
+    };
     return (
         <div className={"App"}>
-        <Fragment>
-            <Todolist
-                title={"Обучение"}
-                subTitle={"Уроки"}
-                description={"Описание уроков"}
-                tasks={tasksForTodolist}
-                date={"14.03.2024"}
-                removeTask={removeTask}
-                changeFilter={changeFilter}
-                addTask={addTask}
-                changeTaskStatus ={changeTaskStatus}
-                filter={filter}
+            <Successful
+                ShowA = {closeShow}
             />
-        </Fragment>
+            <Fragment>
+                <Todolist
+                    title={"Обучение"}
+                    subTitle={"Уроки"}
+                    description={"Описание уроков"}
+                    tasks={tasksForTodolist}
+                    date={"14.03.2024"}
+                    removeTask={removeTask}
+                    changeFilter={changeFilter}
+                    addTask={addTask}
+                    changeTaskStatus={changeTaskStatus}
+                    filter={filter}
+                />
+            </Fragment>
         </div>
     );
 }
