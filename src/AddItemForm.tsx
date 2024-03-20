@@ -30,8 +30,8 @@ export const AddItemForm = ({ addItem }: PropsType) => {
     }
 
     return (
-        <div className={"container"}>
-            <div className="row mb-3">
+        <div className={"container p-0"}>
+            <div className="row mb-3 d-flex justify-content-between">
                 <div className="col-9">
                     <input
                         className={error ? 'form-control is-invalid' : 'form-control'}
@@ -41,10 +41,10 @@ export const AddItemForm = ({ addItem }: PropsType) => {
                         onKeyUp={addItemOnKeyUpHandler}
                     />
                 </div>
-                <div className="col">
+                <div className="col-3">
                     <Btn
                         id={"liveToastBtn"}
-                        className={"btn btn-primary"}
+                        className={"btn btn-primary col-12"}
                         title={'+'}
                         onClick={addItemHandler}
                     />

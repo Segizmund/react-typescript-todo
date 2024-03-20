@@ -118,8 +118,11 @@ function App() {
     }
     return (
         <div className={"App"}>
-            <Row>
-                <AddItemForm addItem={addTodolist} />
+            <Row className={"mb-3"}>
+                <h2 className={"text-center"}>Todo-List</h2>
+            </Row>
+            <Row className={"mb-3"}>
+                <AddItemForm addItem={addTodolist}/>
             </Row>
             <Row className={"gap-5"}>
                 {todolists.map(tl => {

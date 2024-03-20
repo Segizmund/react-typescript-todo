@@ -72,9 +72,9 @@ export const Todolist = ({ title, subTitle, description, tasks, date, removeTask
                                             onChange={changeTaskTitleHandler}
                                             value={task.title} />
                                     </div>
-                                    <div className={"col"}>
+                                    <div className={"col-3 ps-1"}>
                                         <Btn
-                                            className={"btn btn-danger"}
+                                            className={"btn btn-danger col-12"}
                                             title={"X"}
                                             onClick={() => removeTask(task.id,todolistId)}/>
                                     </div>
