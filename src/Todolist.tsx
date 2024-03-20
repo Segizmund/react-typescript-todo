@@ -2,6 +2,8 @@ import React from 'react'
 import {ChangeEvent,KeyboardEvent,useState} from 'react'
 import {Btn} from './Button'
 import {FilterValuesType} from "./App";
+import {AddItemForm} from "./AddItemForm"
+import {EditableSpan } from "./EditableSpan"
 import Toast from 'react-bootstrap/Toast';
 import ToastContainer from 'react-bootstrap/ToastContainer';
 import Button from 'react-bootstrap/Button';
@@ -9,74 +11,45 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 type PropsType = {
     title: string
-    subTitle: string
-    description: string
+    todolistId: string
+    subTitle?: string
+    description?: string
     // @ts-ignore
     tasks: TaskType[]
     date?: string
-    removeTask: (taskId: string) => void
-    changeFilter: (filter: FilterValuesType) => void
-    addTask: (taskTitle: string) => void
-    changeTaskStatus: (taskId: string, newStatusValue: boolean) => void
+    removeTask: (taskId: string, todolistId: string) => void
+    changeFilter: (filter: FilterValuesType, todolistId: string) => void
+    addTask: (title: string, todolistId: string) => void
+    changeTaskStatus: (taskId: string, taskStatus: boolean, todolistId: string) => void
     filter: string
+    removeTodolist: (todolistId: string) => void
+    updateTask: (todolistId: string, taskId: string, title: string) => void
+    updateTodolist: (todolistId: string, title: string) => void
 }
 
-export const Todolist = ({ title, subTitle, description, tasks, date, removeTask, changeFilter, addTask,changeTaskStatus, filter}: PropsType) => {
-    const [taskTitle, setTaskTitle] = useState('')
-    const [error, setError] = useState<string | null>(null)
+export const Todolist = ({ title, subTitle, description, tasks, date, removeTask, changeFilter, addTask,changeTaskStatus, filter,todolistId,removeTodolist,updateTask, updateTodolist}: PropsType) => {
     const [success, setSuccess] = useState<string | null>(null)
-    const addTaskHandler = () => {
-        if (taskTitle.trim() !== '') {
-            addTask(taskTitle.trim())
-            setSuccess("Таск Успешно добавлен")
-            setTaskTitle('')
-        }
-        else{
-            setError('Обязательное поле')
-        }
-    }
-    //Отслеживание изминение input
-    const changeTaskTitleHandler = (event: ChangeEvent<HTMLInputElement>) => {
-        setTaskTitle(event.currentTarget.value)
-    }
-    //Отслеживание нажатие "Enter"
-    const addTaskOnKeyUpHandler = (event: KeyboardEvent<HTMLInputElement>) => {
-        setError(null)
-        setSuccess(null)
-        if (event.key === 'Enter') {
-            addTaskHandler()
-        }
+    const addTaskCallback = (title: string) => {
+        addTask(title, todolistId)
     }
     const changeFilterTasksHandler = (filter: FilterValuesType) => {
-        changeFilter(filter)
+        changeFilter(filter, todolistId)
+    }
+    const removeTodolistHandler = () => {
+        removeTodolist(todolistId)
+    }
+    const updateTodolistHandler = (title: string) => {
+        updateTodolist(todolistId, title)
     }
     return (
         <div className={"col-sm-3 border border-infoborder border-warning rounded-4"}>
-            <h3>{title}</h3>
+            <EditableSpan value={title} onChange={updateTodolistHandler} />
+            <Btn title={'x'} onClick={removeTodolistHandler} />
             <h4>{subTitle}</h4>
             <p>{description}</p>
-            <div className={"container"}>
-                <div className="row mb-3">
-                    <div className="col-9">
-                        <input
-                            className={error ? 'form-control is-invalid' : 'form-control'}
-                            id={"floatingInputInvalid"}
-                            value={taskTitle}
-                            onChange={changeTaskTitleHandler}
-                            onKeyUp={addTaskOnKeyUpHandler}
-                        />
-                    </div>
-                    <div className="col">
-                        <Btn
-                            id={"liveToastBtn"}
-                            className={"btn btn-primary"}
-                            title={'+'}
-                            onClick={addTaskHandler}
-                        />
-                    </div>
-                </div>
-                {error && <label htmlFor="floatingInputValue">Обязательное поле</label>}
-            </div>
+            <AddItemForm
+                addItem={addTaskCallback}
+            />
             {tasks.length === 0 ? (
                 <p>Тасок нет</p>
             ) : (
@@ -84,7 +57,10 @@ export const Todolist = ({ title, subTitle, description, tasks, date, removeTask
                     {tasks.map(task => {
                         const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
                             const newStatusValue = e.currentTarget.checked
-                            changeTaskStatus(task.id, newStatusValue)
+                            changeTaskStatus(task.id, newStatusValue,todolistId)
+                        }
+                        const changeTaskTitleHandler = (title: string) => {
+                            updateTask(todolistId, task.id, title)
                         }
                         return (
                             <li key={task.id} className={task.isDone ? 'is-done' : ''}>
@@ -92,13 +68,15 @@ export const Todolist = ({ title, subTitle, description, tasks, date, removeTask
                                     <div className={"col-9"}>
                                         <input type="checkbox" checked={task.isDone}
                                                onChange={changeTaskStatusHandler}/>
-                                        <span>{task.title}</span>
+                                        <EditableSpan
+                                            onChange={changeTaskTitleHandler}
+                                            value={task.title} />
                                     </div>
                                     <div className={"col"}>
                                         <Btn
                                             className={"btn btn-danger"}
                                             title={"X"}
-                                            onClick={() => removeTask(task.id)}/>
+                                            onClick={() => removeTask(task.id,todolistId)}/>
                                     </div>
                                 </div>
                             </li>
