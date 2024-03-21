@@ -4,9 +4,14 @@ import {Btn} from './Button'
 import {FilterValuesType} from "./App";
 import {AddItemForm} from "./AddItemForm"
 import {EditableSpan } from "./EditableSpan"
+import { Delete } from '@mui/icons-material'
+import { IconButton, Checkbox } from '@mui/material';
+import List from '@mui/material/List'
+import ListItem from '@mui/material/ListItem'
 import Toast from 'react-bootstrap/Toast';
 import ToastContainer from 'react-bootstrap/ToastContainer';
-import Button from 'react-bootstrap/Button';
+import Button from '@mui/material/Button';
+import {ButtonBase} from "@mui/material";
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 type PropsType = {
@@ -42,9 +47,17 @@ export const Todolist = ({ title, subTitle, description, tasks, date, removeTask
         updateTodolist(todolistId, title)
     }
     return (
-        <div className={"col-sm-3 border border-infoborder border-warning rounded-4"}>
-            <EditableSpan value={title} onChange={updateTodolistHandler} />
-            <Btn title={'x'} onClick={removeTodolistHandler} />
+        <div className={"p-2  border-infoborder border-warning"}>
+            <Row className={"d-flex justify-content-between"}>
+                <div className={"col-9"}>
+                    <EditableSpan value={title} onChange={updateTodolistHandler}/>
+                </div>
+                <div className={"col-3"}>
+                    <IconButton style={{left: '8px'}} className={""} onClick={removeTodolistHandler}>
+                        <Delete/>
+                    </IconButton>
+                </div>
+            </Row>
             <h4>{subTitle}</h4>
             <p>{description}</p>
             <AddItemForm
@@ -53,7 +66,7 @@ export const Todolist = ({ title, subTitle, description, tasks, date, removeTask
             {tasks.length === 0 ? (
                 <p>Тасок нет</p>
             ) : (
-                <ul>
+                <List>
                     {tasks.map(task => {
                         const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
                             const newStatusValue = e.currentTarget.checked
@@ -63,41 +76,55 @@ export const Todolist = ({ title, subTitle, description, tasks, date, removeTask
                             updateTask(todolistId, task.id, title)
                         }
                         return (
-                            <li key={task.id} className={task.isDone ? 'is-done' : ''}>
-                                <div className={"row mb-3"}>
-                                    <div className={"col-9"}>
-                                        <input type="checkbox" checked={task.isDone}
-                                               onChange={changeTaskStatusHandler}/>
+                            <ListItem key={task.id} className={task.isDone ? 'is-done pe-0' : 'pe-0'}>
+                                <div className={"row mb-3 w-100 d-flex justify-content-between"}>
+                                    <div className={"col-9 w-auto"}>
+                                        <Checkbox
+                                            checked={task.isDone}
+                                            color={"success"}
+                                            onChange={changeTaskStatusHandler}
+                                        >
+                                        </Checkbox>
                                         <EditableSpan
                                             onChange={changeTaskTitleHandler}
                                             value={task.title} />
                                     </div>
-                                    <div className={"col-3 ps-1"}>
-                                        <Btn
-                                            className={"btn btn-danger col-12"}
-                                            title={"X"}
-                                            onClick={() => removeTask(task.id,todolistId)}/>
+                                    <div className={"col-3 ps-1 pe-0 position-relative"} style={{left: '17px'}}>
+                                        <IconButton
+                                            className={"col-12"}
+                                            onClick={() => removeTask(task.id,todolistId)}>
+                                            <Delete/>
+                                        </IconButton>
                                     </div>
                                 </div>
-                            </li>
+                            </ListItem>
                         )
                     })}
-                </ul>
+                </List>
 
             )}
-            <div className={"d-flex justify-content-evenly col-12"}>
-                <Btn
-                    className={filter === 'all' ? 'btn btn-success' : 'btn btn-primary'}
-                    title={'All'}
-                    onClick={() => changeFilterTasksHandler('all')}/>
-                <Btn
-                    className={filter === 'active' ? 'btn btn-success' : 'btn btn-primary'}
-                    title={'Active'}
-                    onClick={() => changeFilterTasksHandler('active')}/>
-                <Btn
-                    className={filter === 'completed' ? 'btn btn-success' : 'btn btn-primary'}
-                    title={'Completed'}
-                    onClick={() => changeFilterTasksHandler('completed')}/>
+            <div className={"d-flex justify-content-evenly col-12 mb-3"}>
+                <Button
+                    variant={filter === 'all' ? 'contained' : 'text'}
+                    color={'primary'}
+                    onClick={() => changeFilterTasksHandler('all')}
+                >
+                    All
+                </Button>
+                <Button
+                    variant={filter === 'active' ? 'contained' : 'text'}
+                    color={'primary'}
+                    onClick={() => changeFilterTasksHandler('active')}
+                >
+                    Active
+                </Button>
+                <Button
+                    variant={filter === 'completed' ? 'contained' : 'text'}
+                    color={'primary'}
+                    onClick={() => changeFilterTasksHandler('completed')}
+                >
+                    Completed
+                </Button>
             </div>
             <div>{date}</div>
         </div>

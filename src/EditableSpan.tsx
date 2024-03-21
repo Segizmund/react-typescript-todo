@@ -1,11 +1,13 @@
-import {ChangeEvent,useState} from "react";
+import {ChangeEvent, Fragment, useState} from "react";
+import {TextField} from "@mui/material";
 
 type PropsType = {
     value: string
     onChange: (newTitle: string) => void
+    className?: string
 }
 
-export const EditableSpan = ({ value, onChange }: PropsType) => {
+export const EditableSpan = ({ value, onChange,className }: PropsType) => {
     const [editMode, setEditMode] = useState(false)
     const [title, setTitle] = useState(value)
     const activateEditModeHandler = () => {
@@ -19,10 +21,13 @@ export const EditableSpan = ({ value, onChange }: PropsType) => {
         setTitle(event.currentTarget.value)
     }
     return (
-        <>
+        <Fragment>
             {editMode ? (
-                <input
+                <TextField
+                    className={"col-9"}
+                    variant={'outlined'}
                     value={title}
+                    size={'small'}
                     onChange={changeTitleHandler}
                     onBlur={deactivateEditModeHandler}
                     autoFocus
@@ -30,6 +35,6 @@ export const EditableSpan = ({ value, onChange }: PropsType) => {
             ) : (
                 <span onDoubleClick={activateEditModeHandler}>{value}</span>
             )}
-        </>
+        </Fragment>
     )
 }

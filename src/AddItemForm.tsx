@@ -1,5 +1,8 @@
 import { Btn } from './Button'
 import React, { ChangeEvent, KeyboardEvent, useState } from 'react'
+import { TextField } from '@mui/material';
+import { IconButton, Checkbox } from '@mui/material';
+import AddBoxIcon from '@mui/icons-material/AddBox'
 
 type PropsType = {
     addItem: (title: string) => void
@@ -14,7 +17,7 @@ export const AddItemForm = ({ addItem }: PropsType) => {
             addItem(title.trim())
             setTitle('')
         } else {
-            setError('Title is required')
+            setError('Обязательное поле')
         }
     }
 
@@ -30,27 +33,32 @@ export const AddItemForm = ({ addItem }: PropsType) => {
     }
 
     return (
-        <div className={"container p-0"}>
-            <div className="row mb-3 d-flex justify-content-between">
-                <div className="col-9">
-                    <input
-                        className={error ? 'form-control is-invalid' : 'form-control'}
-                        id={"floatingInputInvalid"}
+        <div className={"mb-3"}>
+            <div className="row d-flex justify-content-between">
+                <div className="col-9 inpText">
+                    <TextField
+                        className={error ? 'form-control is-invalid input-title' : 'form-control input-title'}
                         value={title}
                         onChange={changeItemHandler}
                         onKeyUp={addItemOnKeyUpHandler}
-                    />
+                        label={'Введите название'}
+                        error={!!error}
+                        helperText={error}
+                    >
+
+                    </TextField>
                 </div>
-                <div className="col-3">
-                    <Btn
+                <div className="col-3 inpBtn">
+                    <IconButton
+                        style={{paddingLeft: '16px'}}
                         id={"liveToastBtn"}
-                        className={"btn btn-primary col-12"}
-                        title={'+'}
+                        color={"primary"}
                         onClick={addItemHandler}
-                    />
+                    >
+                        <AddBoxIcon />
+                    </IconButton>
                 </div>
             </div>
-            {error && <label htmlFor="floatingInputValue">Обязательное поле</label>}
         </div>
     )
 }

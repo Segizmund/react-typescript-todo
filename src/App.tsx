@@ -2,6 +2,14 @@ import React, {Fragment, useState} from 'react';
 import { v1 } from 'uuid'
 import {Todolist} from './Todolist';
 import {AddItemForm} from "./AddItemForm"
+import {Header} from "./Header"
+import {AppBar, IconButton, Typography, Toolbar} from "@mui/material";
+import Container from '@mui/material/Container'
+import Grid from '@mui/material/Unstable_Grid2'
+import Paper from '@mui/material/Paper'
+import { createTheme, ThemeProvider } from '@mui/material/styles'
+import Switch from '@mui/material/Switch'
+import CssBaseline from '@mui/material/CssBaseline'
 import {Successful} from "./Successful";
 import './App.css';
 import Toast from 'react-bootstrap/Toast';
@@ -19,6 +27,7 @@ type TodolistType ={
     title: string
     filter: FilterValuesType
 }
+type ThemeMode = 'dark' | 'light'
 export type TasksStateType = {
     [key: string]: TaskType[]
 }
@@ -116,15 +125,33 @@ function App() {
         const newTodolists = todolists.map(tl => (tl.id === todolistId ? { ...tl, title } : tl))
         setTodolists(newTodolists)
     }
+    const [themeMode, setThemeMode] = useState<ThemeMode>('light')
+    const theme = createTheme({
+        palette: {
+            mode: themeMode === 'light' ? 'light' : 'dark',
+            primary: {
+                main: '#ef6c00',
+            },
+        },
+    })
+    const changeModeHandler = () => {
+        setThemeMode(themeMode == 'light' ? 'dark' : 'light')
+    }
     return (
-        <div className={"App"}>
+        <div className={"container App mx-auto"}>
+            <ThemeProvider theme={theme}>
+                <CssBaseline />
+            <Header
+                theme={theme}
+            />
             <Row className={"mb-3"}>
                 <h2 className={"text-center"}>Todo-List</h2>
             </Row>
-            <Row className={"mb-3"}>
+            <Row className={"MainInput mb-3 ps-2 pe-2"}>
                 <AddItemForm addItem={addTodolist}/>
             </Row>
-            <Row className={"gap-5"}>
+            <Container fixed>
+                <Grid container spacing={15}>
                 {todolists.map(tl => {
                     const allTodolistTasks = tasks[tl.id]
                     let tasksForTodolist = allTodolistTasks
@@ -137,23 +164,29 @@ function App() {
                         tasksForTodolist = allTodolistTasks.filter(task => task.isDone)
                     }
                     return (
-                        <Todolist
-                            key={tl.id}
-                            todolistId={tl.id}
-                            title={tl.title}
-                            tasks={tasksForTodolist}
-                            removeTask={removeTask}
-                            changeFilter={changeFilter}
-                            addTask={addTask}
-                            changeTaskStatus={changeTaskStatus}
-                            filter={tl.filter}
-                            removeTodolist={removeTodolist }
-                            updateTask={updateTask}
-                            updateTodolist={updateTodolist}
-                        />
+                        <Grid>
+                            <Paper>
+                                <Todolist
+                                    key={tl.id}
+                                    todolistId={tl.id}
+                                    title={tl.title}
+                                    tasks={tasksForTodolist}
+                                    removeTask={removeTask}
+                                    changeFilter={changeFilter}
+                                    addTask={addTask}
+                                    changeTaskStatus={changeTaskStatus}
+                                    filter={tl.filter}
+                                    removeTodolist={removeTodolist }
+                                    updateTask={updateTask}
+                                    updateTodolist={updateTodolist}
+                                />
+                            </Paper>
+                        </Grid>
                     )
                 })}
-            </Row>
+                </Grid>
+            </Container>
+            </ThemeProvider>
         </div>
     );
 }
