@@ -1,5 +1,5 @@
 import {ChangeEvent, Fragment, useState} from "react";
-import {TextField} from "@mui/material";
+import TextField from '@mui/material/TextField';
 
 type PropsType = {
     value: string
@@ -21,12 +21,13 @@ export const EditableSpan = ({ value, onChange,className }: PropsType) => {
         setTitle(event.currentTarget.value)
     }
     return (
-        <Fragment>
+        <>
             {editMode ? (
                 <TextField
                     className={"col-9"}
                     variant={'outlined'}
                     value={title}
+                    placeholder={"primary"}
                     size={'small'}
                     onChange={changeTitleHandler}
                     onBlur={deactivateEditModeHandler}
@@ -35,6 +36,6 @@ export const EditableSpan = ({ value, onChange,className }: PropsType) => {
             ) : (
                 <span onDoubleClick={activateEditModeHandler}>{value}</span>
             )}
-        </Fragment>
+        </>
     )
 }

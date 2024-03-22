@@ -6,9 +6,10 @@ import AddBoxIcon from '@mui/icons-material/AddBox'
 
 type PropsType = {
     addItem: (title: string) => void
+    theme: any
 }
 
-export const AddItemForm = ({ addItem }: PropsType) => {
+export const AddItemForm = ({ addItem,theme }: PropsType) => {
     const [title, setTitle] = useState('')
     const [error, setError] = useState<string | null>(null)
 
@@ -39,6 +40,7 @@ export const AddItemForm = ({ addItem }: PropsType) => {
                     <TextField
                         className={error ? 'form-control is-invalid input-title' : 'form-control input-title'}
                         value={title}
+                        placeholder={"theme.palette.primary.contrastText"}
                         onChange={changeItemHandler}
                         onKeyUp={addItemOnKeyUpHandler}
                         label={'Введите название'}

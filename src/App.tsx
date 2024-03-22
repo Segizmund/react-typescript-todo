@@ -132,9 +132,12 @@ function App() {
             primary: {
                 main: '#ef6c00',
             },
+            text:{
+                primary: '#ef6c00',
+            }
         },
     })
-    const changeModeHandler = () => {
+    const changeModeHandler = (themeMode: any) => {
         setThemeMode(themeMode == 'light' ? 'dark' : 'light')
     }
     return (
@@ -142,13 +145,16 @@ function App() {
             <ThemeProvider theme={theme}>
                 <CssBaseline />
             <Header
+                setThemeMode={setThemeMode}
                 theme={theme}
             />
             <Row className={"mb-3"}>
                 <h2 className={"text-center"}>Todo-List</h2>
             </Row>
             <Row className={"MainInput mb-3 ps-2 pe-2"}>
-                <AddItemForm addItem={addTodolist}/>
+                <AddItemForm
+                    theme={theme}
+                    addItem={addTodolist}/>
             </Row>
             <Container fixed>
                 <Grid container spacing={15}>
@@ -179,6 +185,7 @@ function App() {
                                     removeTodolist={removeTodolist }
                                     updateTask={updateTask}
                                     updateTodolist={updateTodolist}
+                                    theme={theme}
                                 />
                             </Paper>
                         </Grid>

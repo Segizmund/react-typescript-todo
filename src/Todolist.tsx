@@ -30,9 +30,10 @@ type PropsType = {
     removeTodolist: (todolistId: string) => void
     updateTask: (todolistId: string, taskId: string, title: string) => void
     updateTodolist: (todolistId: string, title: string) => void
+    theme: any
 }
 
-export const Todolist = ({ title, subTitle, description, tasks, date, removeTask, changeFilter, addTask,changeTaskStatus, filter,todolistId,removeTodolist,updateTask, updateTodolist}: PropsType) => {
+export const Todolist = ({ title, subTitle, description, tasks, date, removeTask, changeFilter, addTask,changeTaskStatus, filter,todolistId,removeTodolist,updateTask, updateTodolist,theme}: PropsType) => {
     const [success, setSuccess] = useState<string | null>(null)
     const addTaskCallback = (title: string) => {
         addTask(title, todolistId)
@@ -61,6 +62,7 @@ export const Todolist = ({ title, subTitle, description, tasks, date, removeTask
             <h4>{subTitle}</h4>
             <p>{description}</p>
             <AddItemForm
+                theme={theme}
                 addItem={addTaskCallback}
             />
             {tasks.length === 0 ? (
@@ -78,7 +80,7 @@ export const Todolist = ({ title, subTitle, description, tasks, date, removeTask
                         return (
                             <ListItem key={task.id} className={task.isDone ? 'is-done pe-0' : 'pe-0'}>
                                 <div className={"row mb-3 w-100 d-flex justify-content-between"}>
-                                    <div className={"col-9 w-auto"}>
+                                    <div className={"col-9 w-auto "}>
                                         <Checkbox
                                             checked={task.isDone}
                                             color={"success"}

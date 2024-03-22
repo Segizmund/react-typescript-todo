@@ -5,8 +5,12 @@ import Switch from '@mui/material/Switch'
 
 type ThemeInfo ={
     theme: any
+    setThemeMode  : (themeMode : any) => void
 }
-export const Header = ({theme}:ThemeInfo) => {
+export const Header = ({theme,setThemeMode,}:ThemeInfo) => {
+    const changeModeHandler = () => {
+        setThemeMode(theme.palette.mode == 'light' ? 'dark' : 'light')
+    }
     return (
         <AppBar className={"container-fluid"} position={"static"}>
             <Toolbar className={"d-flex justify-content-between"}>
@@ -22,7 +26,7 @@ export const Header = ({theme}:ThemeInfo) => {
                     <MenuButton background={theme.palette.primary.dark}>Логин</MenuButton>
                     <MenuButton background={theme.palette.primary.dark}>Логин</MenuButton>
                     <MenuButton background={theme.palette.primary.dark}>Faq</MenuButton>
-                    <Switch color={'default'} />
+                    <Switch color={'default'} onChange={changeModeHandler}/>
                 </div>
             </Toolbar>
         </AppBar>
