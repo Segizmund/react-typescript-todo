@@ -40,7 +40,11 @@ export const AddItemForm = ({ addItem,theme }: PropsType) => {
                     <TextField
                         className={error ? 'form-control is-invalid input-title' : 'form-control input-title'}
                         value={title}
-                        placeholder={"theme.palette.primary.contrastText"}
+                        InputLabelProps={{
+                            sx: {
+                                color: theme.palette.text.primary
+                            }
+                        }}
                         onChange={changeItemHandler}
                         onKeyUp={addItemOnKeyUpHandler}
                         label={'Введите название'}
@@ -54,7 +58,6 @@ export const AddItemForm = ({ addItem,theme }: PropsType) => {
                     <IconButton
                         style={{paddingLeft: '16px'}}
                         id={"liveToastBtn"}
-                        color={"primary"}
                         onClick={addItemHandler}
                     >
                         <AddBoxIcon />

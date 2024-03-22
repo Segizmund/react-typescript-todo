@@ -27,7 +27,6 @@ export const EditableSpan = ({ value, onChange,className }: PropsType) => {
                     className={"col-9"}
                     variant={'outlined'}
                     value={title}
-                    placeholder={"primary"}
                     size={'small'}
                     onChange={changeTitleHandler}
                     onBlur={deactivateEditModeHandler}

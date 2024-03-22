@@ -148,7 +148,7 @@ function App() {
                 setThemeMode={setThemeMode}
                 theme={theme}
             />
-            <Row className={"mb-3"}>
+            <Row className={"mb-3 mt-3"}>
                 <h2 className={"text-center"}>Todo-List</h2>
             </Row>
             <Row className={"MainInput mb-3 ps-2 pe-2"}>
@@ -157,7 +157,7 @@ function App() {
                     addItem={addTodolist}/>
             </Row>
             <Container fixed>
-                <Grid container spacing={15}>
+                <Grid container spacing={13}>
                 {todolists.map(tl => {
                     const allTodolistTasks = tasks[tl.id]
                     let tasksForTodolist = allTodolistTasks
