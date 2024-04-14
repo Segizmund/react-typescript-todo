@@ -157,7 +157,7 @@ function App() {
                     addItem={addTodolist}/>
             </Row>
             <Container fixed>
-                <Grid container spacing={13}>
+                <Grid container spacing={10}>
                 {todolists.map(tl => {
                     const allTodolistTasks = tasks[tl.id]
                     let tasksForTodolist = allTodolistTasks

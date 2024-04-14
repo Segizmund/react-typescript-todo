@@ -24,7 +24,7 @@ export const EditableSpan = ({ value, onChange,className }: PropsType) => {
         <>
             {editMode ? (
                 <TextField
-                    className={"col-9"}
+                    className={"col-8 p-0 m-0"}
                     variant={'outlined'}
                     value={title}
                     size={'small'}
@@ -33,7 +33,8 @@ export const EditableSpan = ({ value, onChange,className }: PropsType) => {
                     autoFocus
                 />
             ) : (
-                <span onDoubleClick={activateEditModeHandler}>{value}</span>
+                <span
+                    onDoubleClick={activateEditModeHandler}>{value}</span>
             )}
         </>
     )

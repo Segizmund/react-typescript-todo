@@ -79,26 +79,29 @@ export const Todolist = ({ title, subTitle, description, tasks, date, removeTask
                         }
                         return (
                             <ListItem key={task.id} className={task.isDone ? 'is-done pe-0' : 'pe-0'}>
-                                <div className={"row mb-3 w-100 d-flex justify-content-between"}>
-                                    <div className={"col-9 w-auto "}>
+                                <Row className={"mb-3 w-100 d-flex justify-content-between"}>
+                                    <div className={"col-8 p-0"}>
                                         <Checkbox
+                                            className={"col-4 p-0 m-0"}
                                             checked={task.isDone}
                                             color={"success"}
                                             onChange={changeTaskStatusHandler}
                                         >
                                         </Checkbox>
                                         <EditableSpan
+                                            className={"col-6 p-0 m-0"}
                                             onChange={changeTaskTitleHandler}
                                             value={task.title} />
                                     </div>
-                                    <div className={"col-3 ps-1 pe-0 position-relative"} style={{left: '17px'}}>
+                                    <div className={"col-3 p-0"}>
                                         <IconButton
+                                            style={{left: '17px'}}
                                             className={"col-12"}
                                             onClick={() => removeTask(task.id,todolistId)}>
                                             <Delete/>
                                         </IconButton>
                                     </div>
-                                </div>
+                                </Row>
                             </ListItem>
                         )
                     })}
